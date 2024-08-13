@@ -60,8 +60,8 @@ public class DocumentProcessor
                     throw new ArgumentException("Número de documento inválido. Debe tener 8 o 11 dígitos.");
                 }
 
-                //string tableNamedb = "ExcelData";
-                //_sqliteLoader.LoadDataTableToDataGridView(tableNamedb, _dataGridView);
+                string tableNamedb = "ExcelData";
+                _sqliteLoader.LoadDataTableToDataGridView(tableNamedb, _dataGridView);
             }
             catch (UnauthorizedAccessException ex)
             {
@@ -74,8 +74,8 @@ public class DocumentProcessor
             }
         }
 
-        string tableNamedb = "ExcelData";
-        _sqliteLoader.LoadDataTableToDataGridView(tableNamedb, _dataGridView);
+        //string tableNamedb = "ExcelData";
+        //_sqliteLoader.LoadDataTableToDataGridView(tableNamedb, _dataGridView);
         _loadLabel.Visible = false;
     }
 }

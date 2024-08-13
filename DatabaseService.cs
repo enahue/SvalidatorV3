@@ -19,7 +19,7 @@ public class DatabaseService
         using (var connection = new SQLiteConnection(_connectionString))
         {
             connection.Open();
-            using (var command = new SQLiteCommand("select DOCUMENTO FROM ExcelData WHERE trim(DOCUMENTO) != '' AND API != 'Consultado' order by ID;", connection))
+            using (var command = new SQLiteCommand("select DOCUMENTO FROM ExcelData WHERE trim(DOCUMENTO) != '' order by ID;", connection))
             {
                 using (var reader = command.ExecuteReader())
                 {
