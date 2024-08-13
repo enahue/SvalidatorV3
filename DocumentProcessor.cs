@@ -29,26 +29,27 @@ public class DocumentProcessor
 
         foreach (var documentNumber in documentNumbers)
         {
-            
-            
+
+
             try
             {
                 if (documentNumber.Length == 8)
                 {
-                    var(nombre, aPaterno, aMaterno, message) = await _apiRucDni.GetDniInfoAsync(documentNumber);
-                    _databaseService.UpdateDocumentInfo(documentNumber, "-", nombre, aPaterno,aMaterno, "-", "-", "-","-", "-","-","-","-",message, "DNI");
+                    var (nombre, aPaterno, aMaterno, message) = await _apiRucDni.GetDniInfoAsync(documentNumber);
+                    _databaseService.UpdateDocumentInfo(documentNumber, "-", nombre, aPaterno, aMaterno, "-", "-", "-", "-", "-", "-", "-", "-", message, "DNI");
                     _loadLabel.Text = $"Consultando DNI {documentNumber} - {nombre} {aPaterno} {aMaterno}";
                 }
                 else if (documentNumber.Length == 11)
                 {
-                    
+
                     var (rucInfo, direccion, estado, condicion, departamento, provincia, distrito, ubigeo, agente_rentencion, message) = await _apiRucDni.GetRucInfoAsync(documentNumber);
-                    _databaseService.UpdateDocumentInfo(documentNumber, rucInfo, "-", "-","-", direccion, departamento, provincia, distrito, ubigeo, estado,condicion, agente_rentencion, message, "RUC");
+                    _databaseService.UpdateDocumentInfo(documentNumber, rucInfo, "-", "-", "-", direccion, departamento, provincia, distrito, ubigeo, estado, condicion, agente_rentencion, message, "RUC");
                     var rucNatura = documentNumber.Substring(0, 2);
-                    if (rucNatura.ToString() == "10") {
+                    if (rucNatura.ToString() == "10")
+                    {
                         var dniNumber = documentNumber.Substring(2, 8);
                         var (nombre, aPaterno, aMaterno, messages) = await _apiRucDni.GetDniInfoAsync(dniNumber);
-                        _databaseService.UpdateDocumentInfo(documentNumber, "-", nombre, aPaterno, aMaterno, "-", "-", "-", "-", "-", "-", "-", "-", message, "RUC PERSONA NATURAL");
+                        _databaseService.UpdateDocumentInfo(documentNumber, rucInfo, nombre, aPaterno,aMaterno, direccion, departamento, provincia, distrito, ubigeo, estado, condicion, agente_rentencion, message, "RUC PERSONA NATURAL");
                         _loadLabel.Text = $"Consultando DNI {documentNumber} - {nombre} {aPaterno} {aMaterno}";
                     }
                     _loadLabel.Text = $"Consultando RUC {documentNumber} - {rucInfo}";
@@ -62,7 +63,8 @@ public class DocumentProcessor
                 //string tableNamedb = "ExcelData";
                 //_sqliteLoader.LoadDataTableToDataGridView(tableNamedb, _dataGridView);
             }
-            catch (UnauthorizedAccessException ex) {
+            catch (UnauthorizedAccessException ex)
+            {
                 MessageBox.Show(ex.Message, "Error de Autorización", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 break;
             }
@@ -71,7 +73,7 @@ public class DocumentProcessor
                 Console.WriteLine($"Error al consultar el RUC {documentNumber}: {ex.Message}");
             }
         }
-        
+
         string tableNamedb = "ExcelData";
         _sqliteLoader.LoadDataTableToDataGridView(tableNamedb, _dataGridView);
         _loadLabel.Visible = false;

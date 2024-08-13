@@ -118,15 +118,15 @@ public class ApiRucDni
         else if (documentNumber.Length == 11)
         {
             var rucNatura = documentNumber.Substring(0, 2);
-            var (razonSocial, direccion, condicion, departamento, provincia, distrito,estado, ubigeo, message,arentencion) = await GetRucInfoAsync(documentNumber);
+            var (razonSocial, direccion, estado, condicion, departamento, provincia, distrito, arentencion, ubigeo, message) = await GetRucInfoAsync(documentNumber);
 
             if (rucNatura.ToString() == "10")
             {
                 var dniNumber = documentNumber.Substring(3, 8);
-                var (nombre, aPaterno, aMaterno, messages) = await GetDniInfoAsync(documentNumber);
-                return $"Nombre: {nombre}, Apaterno: {aPaterno}, Amaterno: {aPaterno}";
+                var (nombre, aPaterno, aMaterno, messages) = await GetDniInfoAsync(dniNumber);
+               return $"Nombre: {nombre}, Apaterno: {aPaterno}, Amaterno: {aPaterno}";
             }
-            return $"RazonSocial: {razonSocial}, Direccion: {direccion}, Estado: {estado}, Ubigeo: {ubigeo}";
+            return $"RazonSocial: {razonSocial}, Direccion: {direccion}, Departamento: {departamento}, Estado: {estado}, Ubigeo: {ubigeo}";
         }
         else
         {
