@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Irony.Parsing;
 using Newtonsoft.Json.Linq;
 
 public class ApiRucDni
@@ -13,10 +15,17 @@ public class ApiRucDni
         _httpClient = new HttpClient();
         _token = token;
     }
+    private void ConfigureHttpClient(string token)
+    {
+        _httpClient.DefaultRequestHeaders.Accept.Clear();
+        _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+    }
 
     public async Task<(string RazonSocial, string Direccion, string Estado, string Ubigeo, string message)> GetRucInfoAsync(string ruc)
     {
         var url = $"https://dniruc.apisperu.com/api/v1/ruc/{ruc}?token={_token}";
+        
         var response = await _httpClient.GetAsync(url);
         if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
         {

@@ -87,12 +87,6 @@ namespace Svalidator
         }
         private void btn_cargarexcel_Click(object sender, EventArgs e)
         {
-            //using (var conexionSQLite = new SQLiteConnection(connectionString))
-            //{
-            //    conexionSQLite.Open();
-            //    consultaSqlite(conexionSQLite);
-
-            //}
             if (!System.IO.File.Exists(@"database.db"))
             {
                 MessageBox.Show("No se ha configurado el token de la API. Por favor, configure el token en el menú 'Configurar Token'.", "Token no configurado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -152,9 +146,6 @@ namespace Svalidator
             }
             else
             {
-                //var connectionString = "Data Source=your_database.db;Version=3;";
-                //var token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InNhOWhwOTJ1eHpAc29tZWxvcmEuY29tIn0.-nu72N483bmKq4n-QD_5a1lbG8JRpjoCwThfK8gu0Zk";
-
                 lbl_message.Visible = true;
                 var databaseService = new DatabaseService(connectionString);
                 var dniRucService = new ApiRucDni(token);
