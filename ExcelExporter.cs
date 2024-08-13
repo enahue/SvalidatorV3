@@ -29,6 +29,7 @@ public class ExcelExporter
                         using (var workbook = new XLWorkbook())
                         {
                             var worksheet = workbook.Worksheets.Add(dataTable, "Sheet1");
+                            worksheet.Columns().AdjustToContents();
                             workbook.SaveAs(filePath);
                         }
                     }

@@ -90,7 +90,7 @@
             // button2
             // 
             button2.BackColor = Color.Chartreuse;
-            button2.Location = new Point(220, 26);
+            button2.Location = new Point(216, 26);
             button2.Name = "button2";
             button2.Size = new Size(80, 26);
             button2.TabIndex = 2;

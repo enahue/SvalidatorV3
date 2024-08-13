@@ -47,7 +47,8 @@ namespace Svalidator
                     if (saveFileDialog.ShowDialog() == DialogResult.OK)
                     {
                         string filePath = saveFileDialog.FileName;
-                        string query = "SELECT DOCUMENTO AS 'DNI/RUC', RSOCIAL AS 'RAZON SOCIAL' FROM ExcelData";
+                        //string query = "SELECT DOCUMENTO AS 'DNI/RUC', RSOCIAL AS 'RAZON SOCIAL' FROM ExcelData";
+                        string query = $" SELECT ID, DOCUMENTO, RSOCIAL AS 'RAZON SOCIAL', NOMBRES, APATERNO AS 'AP. PATERNO', AMATERNO AS 'AP. MATERNO',  DIRECCION, DEPARTAMENTO, PROVINCIA, DISTRITO, UBIGEO, ESTADO, CONDICION, ARETENCION AS 'AG. RENTENCION', API AS 'RESPUESTA API', TIPODOC AS 'TIPO DOC.' FROM ExcelData";
 
                         try
                         {
@@ -151,8 +152,8 @@ namespace Svalidator
                 var dniRucService = new ApiRucDni(token);
                 var sqliteLoad = new SQLiteLoader(connectionString);
                 var loadLabel = lbl_message;
-                var rucProcessor = new DocumentProcessor(databaseService, dniRucService, sqliteLoad, dataGridView1, loadLabel);
-                await rucProcessor.ProcessRucNumbersAsync();
+                var docProcessor = new DocumentProcessor(databaseService, dniRucService, sqliteLoad, dataGridView1, loadLabel);
+                await docProcessor.ProcessRucNumbersAsync();
 
             }
 

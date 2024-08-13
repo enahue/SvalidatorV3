@@ -59,7 +59,7 @@ public class ExcelToSQLite
             conn.Open();
             string dropTableQuery = "DROP TABLE IF EXISTS " + tableName;
             // Crear la tabla si no existe
-            string createTableQuery = "CREATE TABLE IF NOT EXISTS " + tableName + " ( ID INTEGER PRIMARY KEY AUTOINCREMENT, DOCUMENTO TEXT, RSOCIAL TEXT, NOMBRES TEXT, APATERNO TEXT, AMATERNO TEXT,  DIRECCION TEXT, UBIGEO TEXT, ESTADO TEXT, API TEXT, TIPODOC TEXT";
+            string createTableQuery = "CREATE TABLE IF NOT EXISTS " + tableName + " ( ID INTEGER PRIMARY KEY AUTOINCREMENT, DOCUMENTO TEXT, RSOCIAL TEXT, NOMBRES TEXT, APATERNO TEXT, AMATERNO TEXT,  DIRECCION TEXT, DEPARTAMENTO TEXT, PROVINCIA TEXT, DISTRITO TEXT, UBIGEO TEXT, ESTADO TEXT, CONDICION TEXT, ARETENCION TEXT, API TEXT, TIPODOC TEXT";
            
             using (SQLiteCommand cmd = new SQLiteCommand(dropTableQuery, conn))
             {
