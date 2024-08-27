@@ -10,7 +10,7 @@ public class ApiRucDni
 {
     private readonly HttpClient _httpClient;
     private readonly string _token;
-    
+
 
     public ApiRucDni(string token)
     {
@@ -42,37 +42,32 @@ public class ApiRucDni
         }
         var responseContent = await response.Content.ReadAsStringAsync();
         var json = JObject.Parse(responseContent);
-
+        var message = json["message"]?.ToString() ?? "Consultado";
         var errorMessage = "";
-        if (json["success"]?.ToObject<bool>() == false)
+
+        if (message == "Ha superado la cantidad de consultas mensuales")
         {
-            errorMessage = json["message"]?.ToString() ?? "Error desconocido";
-            
-            throw new Exception(errorMessage);
+            throw new Exception(message);
         }
         var data = json["data"];
 
-        if (data == null)
-        {
-            throw new Exception("La respuesta no contiene datos.");
-        }
-        var razonSocial = data["nombre_o_razon_social"]?.ToString() ?? "-";
-        var direccion = data["direccion"]?.ToString() ?? "-";
-        var estado = data["estado"]?.ToString() ?? "-";
-        var condicion = data["condicion"]?.ToString() ?? "-";
-        var departamento = data["departamento"]?.ToString() ?? "-";
-        var provincia = data["provincia"]?.ToString() ?? "-";
-        var distrito = data["distrito"]?.ToString() ?? "-";
-        var ubigeo = data["ubigeo_sunat"]?.ToString() ?? "-";
-        var agente_rentencion = data["es_agente_de_retencion"]?.ToString() ?? "-";
-        var message = json["message"]?.ToString() ?? "Consultado";
+        var razonSocial = data?["nombre_o_razon_social"]?.ToString() ?? "-";
+        var direccion = data?["direccion"]?.ToString() ?? "-";
+        var estado = data?["estado"]?.ToString() ?? "-";
+        var condicion = data?["condicion"]?.ToString() ?? "-";
+        var departamento = data?["departamento"]?.ToString() ?? "-";
+        var provincia = data?["provincia"]?.ToString() ?? "-";
+        var distrito = data?["distrito"]?.ToString() ?? "-";
+        var ubigeo = data?["ubigeo_sunat"]?.ToString() ?? "-";
+        var agente_rentencion = data?["es_agente_de_retencion"]?.ToString() ?? "-";
+       
         var success = json["success"]?.ToString();
 
-        
-        return (razonSocial, direccion, estado, condicion,departamento, provincia, distrito ,ubigeo,agente_rentencion, message);
+
+        return (razonSocial, direccion, estado, condicion, departamento, provincia, distrito, ubigeo, agente_rentencion, message);
     }
 
-                public async Task<(string Nombre, string Apaterno, string Amaterno, string message)> GetDniInfoAsync(string dni)
+    public async Task<(string Nombre, string Apaterno, string Amaterno, string message)> GetDniInfoAsync(string dni)
     {
         var url = "https://apiperu.dev/api/dni";
         var content = new StringContent($"{{\"dni\":\"{dni}\"}}", Encoding.UTF8, "application/json");
@@ -93,18 +88,28 @@ public class ApiRucDni
 
         var responseContent = await response.Content.ReadAsStringAsync();
         var json = JObject.Parse(responseContent);
+        var success = json["success"]?.ToObject<bool>() ?? false;
+        var message = json["message"]?.ToString() ?? "Consultado";
+
+
         var data = json["data"];
 
-        if (data == null)
+        if (message == "Ha superado la cantidad de consultas mensuales")
         {
-            throw new Exception("La respuesta no contiene datos.");
+            throw new Exception(message);
         }
+        //if (data == null)
+        //{
+        //    throw new Exception("La respuesta no contiene datos.");
+        //    //throw new Exception(message);
+        //}
 
-        var nombre = data["nombres"]?.ToString() ?? "-";
-        var aPaterno = data["apellido_paterno"]?.ToString() ?? "-";
-        var aMaterno = data["apellido_materno"]?.ToString() ?? "-";
-        var message = json["message"]?.ToString() ?? "Consultado";
-        var success = json["success"]?.ToString();
+        var nombre = data?["nombres"]?.ToString() ?? "-";
+        var aPaterno = data?["apellido_paterno"]?.ToString() ?? "-";
+        var aMaterno = data?["apellido_materno"]?.ToString() ?? "-";
+
+        
+        
         return (nombre, aPaterno, aMaterno, message);
     }
 
@@ -124,7 +129,7 @@ public class ApiRucDni
             {
                 var dniNumber = documentNumber.Substring(3, 8);
                 var (nombre, aPaterno, aMaterno, messages) = await GetDniInfoAsync(dniNumber);
-               return $"Nombre: {nombre}, Apaterno: {aPaterno}, Amaterno: {aPaterno}";
+                return $"Nombre: {nombre}, Apaterno: {aPaterno}, Amaterno: {aPaterno}";
             }
             return $"RazonSocial: {razonSocial}, Direccion: {direccion}, Departamento: {departamento}, Estado: {estado}, Ubigeo: {ubigeo}";
         }
