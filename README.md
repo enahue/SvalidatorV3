@@ -25,7 +25,7 @@ Este proyecto permite consultar información de RUC y DNI, actualizar una base de
 ## Uso
 
 1. Genera un token de acceso en la página de apiperu.dev.
-1. Crea una archivo de excel en la cual la colunma A1 es la cabecera, de la Columna A2 hacia abajo ingresa los numeros de RUC o DNI que requieras consultar.
+1. Crea una archivo de excel en la cual la colunma A1 es la cabecera, desde la Columna A2 hacia abajo ingresa los numeros de RUC o DNI que requieras consultar.
 2. Ejecuta el proyecto en Visual Studio.
 3. El método `ProcessRucNumbersAsync` en `MainForm` procesará los números de documento, consultará la información de RUC y DNI, actualizará la base de datos y exportará los datos a un archivo Excel.
 
